@@ -1,0 +1,43 @@
+# .NET / Visual Studio
+**/bin/
+**/obj/
+**/.vs/
+TestResults/
+artifacts/
+*.user
+*.suo
+*.nupkg
+
+# LabVIEW machine/user state
+*.lvlps
+*.aliases
+.*.UserState/
+**/.cache/
+
+# Generated report outputs
+LV/output*.xlsx
+LV/Test/output*.xlsx
+LV/Test/output*.xltx
+
+# Local LabVIEW test assets pending sanitization for the public repository
+LV/Test/
+LV/Templates/
+LV/Pre-Test/
+
+# Internal analyses pending sanitization for public release
+docs/REPORT_INVENTORY_DAS_054_3LIV.md
+docs/REPORT_LOCKER_ANALYSIS.md
+docs/TEMPLATE_ANALYSIS.md
+docs/data/workbook_analysis.json
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+~$*
+
+# OS/editor metadata
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

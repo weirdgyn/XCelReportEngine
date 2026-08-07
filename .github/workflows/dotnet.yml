@@ -1,0 +1,32 @@
+name: .NET build
+
+on:
+  push:
+    paths:
+      - ".net/**"
+      - "Directory.Build.props"
+      - "global.json"
+      - ".github/workflows/dotnet.yml"
+  pull_request:
+    paths:
+      - ".net/**"
+      - "Directory.Build.props"
+      - "global.json"
+      - ".github/workflows/dotnet.yml"
+
+jobs:
+  build-test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+          cache: true
+          cache-dependency-path: ".net/**/packages.lock.json"
+      - name: Restore
+        run: dotnet restore .net/XCelReportEngine.sln --locked-mode -m:1
+      - name: Build
+        run: dotnet build .net/XCelReportEngine.sln -c Release --no-restore -m:1
+      - name: Test
+        run: dotnet test .net/XCelReportEngine.sln -c Release --no-build --no-restore -m:1 --logger "console;verbosity=minimal"

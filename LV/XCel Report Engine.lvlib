@@ -1,0 +1,46 @@
+﻿<?xml version='1.0' encoding='UTF-8'?>
+<Library LVVersion="26008000">
+	<Property Name="NI.Lib.Icon" Type="Bin">*A#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!(]!!!*Q(C=\&gt;8"=&gt;MQ%!8143;(8.6"2CVM#WJ",7Q,SN&amp;(N&lt;!NK!7VM#WI"&lt;8A0$%94UZ2$P%E"Y.?G@I%A7=11U&gt;M\7P%FXB^VL\`NHV=@X&lt;^39O0^N(_&lt;8NZOEH@@=^_CM?,3)VK63LD-&gt;8LS%=_]J'0@/1N&lt;XH,7^\SFJ?]Z#5P?=F,HP+5JTTF+5`Z&gt;MB$(P+1)YX*RU2DU$(![)Q3YW.YBG&gt;YBM@8'*\B':\B'2Z&gt;9HC':XC':XD=&amp;M-T0--T0-.DK%USWS(H'2\$2`-U4`-U4`/9-JKH!&gt;JE&lt;?!W#%;UC_WE?:KH?:R']T20]T20]\A=T&gt;-]T&gt;-]T?/7&lt;66[UTQ//9^BIHC+JXC+JXA-(=640-640-6DOCC?YCG)-G%:(#(+4;6$_6)]R?.8&amp;%`R&amp;%`R&amp;)^,WR/K&lt;75?GM=BZUG?Z%G?Z%E?1U4S*%`S*%`S'$;3*XG3*XG3RV320-G40!G3*D6^J-(3D;F4#J,(T\:&lt;=HN+P5FS/S,7ZIWV+7.NNFC&lt;+.&lt;GC0819TX-7!]JVO,(7N29CR6L%7,^=&lt;(1M4#R*IFV][.DX(X?V&amp;6&gt;V&amp;G&gt;V&amp;%&gt;V&amp;\N(L@_Z9\X_TVONVN=L^?Y8#ZR0J`D&gt;$L&amp;]8C-Q_%1_`U_&gt;LP&gt;WWPAG_0NB@$TP@4C`%`KH@[8`A@PRPA=PYZLD8Y!#/7SO!!!!!!</Property>
+	<Property Name="NI.Lib.SourceVersion" Type="Int">637566976</Property>
+	<Property Name="NI.Lib.Version" Type="Str">1.0.0.0</Property>
+	<Property Name="NI.LV.All.SourceOnly" Type="Bool">true</Property>
+	<Item Name="Controls" Type="Folder">
+		<Item Name="Image Alignment.ctl" Type="VI" URL="../Controls/Image Alignment.ctl"/>
+		<Item Name="Measurement System.ctl" Type="VI" URL="../Controls/Measurement System.ctl"/>
+		<Item Name="Picture Color Type.ctl" Type="VI" URL="../Controls/Picture Color Type.ctl"/>
+		<Item Name="Report Ref.ctl" Type="VI" URL="../Controls/Report Ref.ctl"/>
+	</Item>
+	<Item Name="DotNet" Type="Folder">
+		<Item Name="DocumentFormat.OpenXml.dll" Type="Document" URL="../../.net/src/XCelReportEngine/bin/Release/net48/DocumentFormat.OpenXml.dll"/>
+		<Item Name="DocumentFormat.OpenXml.Framework.dll" Type="Document" URL="../../.net/src/XCelReportEngine/bin/Release/net48/DocumentFormat.OpenXml.Framework.dll"/>
+		<Item Name="XCelReportEngine.dll" Type="Document" URL="../../.net/src/XCelReportEngine/bin/Release/net48/XCelReportEngine.dll"/>
+	</Item>
+	<Item Name="Private" Type="Folder">
+		<Item Name="Convert .NET Exception.vi" Type="VI" URL="../Private/Convert .NET Exception.vi"/>
+		<Item Name="Validate Report Reference.vi" Type="VI" URL="../Private/Validate Report Reference.vi"/>
+	</Item>
+	<Item Name="Public" Type="Folder">
+		<Property Name="NI.SortType" Type="Int">3</Property>
+		<Item Name="New Report.vi" Type="VI" URL="../Public/New Report.vi"/>
+		<Item Name="Close Report.vi" Type="VI" URL="../Public/Close Report.vi"/>
+		<Item Name="Save Report.vi" Type="VI" URL="../Public/Save Report.vi"/>
+		<Item Name="Lock Report.vi" Type="VI" URL="../Public/Lock Report.vi"/>
+		<Item Name="Unlock Report.vi" Type="VI" URL="../Public/Unlock Report.vi"/>
+		<Item Name="Get Worksheet Names.vi" Type="VI" URL="../Public/Get Worksheet Names.vi"/>
+		<Item Name="Select Worksheet.vi" Type="VI" URL="../Public/Select Worksheet.vi"/>
+		<Item Name="Select Worksheet by Name.vi" Type="VI" URL="../Public/Select Worksheet by Name.vi"/>
+		<Item Name="Select Worksheet by Index.vi" Type="VI" URL="../Public/Select Worksheet by Index.vi"/>
+		<Item Name="Get Active Worksheet Name.vi" Type="VI" URL="../Public/Get Active Worksheet Name.vi"/>
+		<Item Name="Read Cell String.vi" Type="VI" URL="../Public/Read Cell String.vi"/>
+		<Item Name="Write Cell.vi" Type="VI" URL="../Public/Write Cell.vi"/>
+		<Item Name="Write Cell String.vi" Type="VI" URL="../Public/Write Cell String.vi"/>
+		<Item Name="Write Cell Double.vi" Type="VI" URL="../Public/Write Cell Double.vi"/>
+		<Item Name="Write Cell Boolean.vi" Type="VI" URL="../Public/Write Cell Boolean.vi"/>
+		<Item Name="Read String Range.vi" Type="VI" URL="../Public/Read String Range.vi"/>
+		<Item Name="Write String Table.vi" Type="VI" URL="../Public/Write String Table.vi"/>
+		<Item Name="Append Image.vi" Type="VI" URL="../Public/Append Image.vi"/>
+		<Item Name="Format Image.vi" Type="VI" URL="../Public/Format Image.vi"/>
+		<Item Name="Coordinate2Address.vi" Type="VI" URL="../Public/Coordinate2Address.vi"/>
+		<Item Name="Address2Coordinate.vi" Type="VI" URL="../Public/Address2Coordinate.vi"/>
+	</Item>
+</Library>

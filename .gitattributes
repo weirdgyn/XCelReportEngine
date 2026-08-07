@@ -1,0 +1,24 @@
+* text=auto
+
+*.cs text eol=crlf diff=csharp
+*.csproj text eol=crlf
+*.sln text eol=crlf
+*.props text eol=crlf
+*.targets text eol=crlf
+*.md text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.py text eol=lf
+*.lvlib text eol=crlf
+*.lvproj text eol=crlf
+
+*.vi binary
+*.ctl binary
+*.xlsx binary
+*.xltx binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.dll binary
+*.pdb binary
