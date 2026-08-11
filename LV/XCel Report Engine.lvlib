@@ -15,9 +15,9 @@
 		<Item Name="Vertical alignment.ctl" Type="VI" URL="../Controls/Vertical alignment.ctl"/>
 	</Item>
 	<Item Name="DotNet" Type="Folder">
-		<Item Name="DocumentFormat.OpenXml.dll" Type="Document" URL="../../.net/src/XCelReportEngine/bin/Release/net48/DocumentFormat.OpenXml.dll"/>
-		<Item Name="DocumentFormat.OpenXml.Framework.dll" Type="Document" URL="../../.net/src/XCelReportEngine/bin/Release/net48/DocumentFormat.OpenXml.Framework.dll"/>
-		<Item Name="XCelReportEngine.dll" Type="Document" URL="../../.net/src/XCelReportEngine/bin/Release/net48/XCelReportEngine.dll"/>
+		<Item Name="DocumentFormat.OpenXml.dll" Type="Document" URL="../DotNet/DocumentFormat.OpenXml.dll"/>
+		<Item Name="DocumentFormat.OpenXml.Framework.dll" Type="Document" URL="../DotNet/DocumentFormat.OpenXml.Framework.dll"/>
+		<Item Name="XCelReportEngine.dll" Type="Document" URL="../DotNet/XCelReportEngine.dll"/>
 	</Item>
 	<Item Name="Private" Type="Folder">
 		<Item Name="Convert .NET Exception.vi" Type="VI" URL="../Private/Convert .NET Exception.vi"/>

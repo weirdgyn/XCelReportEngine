@@ -26,6 +26,7 @@
 			<Item Name="Image Test.vi" Type="VI" URL="../Test/Image Test.vi"/>
 		</Item>
 		<Item Name="XCel Report Engine.lvlib" Type="Library" URL="../XCel Report Engine.lvlib"/>
+		<Item Name="XCel Report Engine.vipb" Type="Document" URL="../XCel Report Engine.vipb"/>
 		<Item Name="Dependencies" Type="Dependencies"/>
 		<Item Name="Build Specifications" Type="Build"/>
 	</Item>
