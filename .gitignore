@@ -4,6 +4,7 @@
 **/.vs/
 TestResults/
 artifacts/
+LV/DotNet/
 *.user
 *.suo
 *.nupkg
@@ -29,6 +30,7 @@ docs/REPORT_INVENTORY_DAS_054_3LIV.md
 docs/REPORT_LOCKER_ANALYSIS.md
 docs/TEMPLATE_ANALYSIS.md
 docs/data/workbook_analysis.json
+docs/internal/
 
 # Temporary files
 *.tmp
