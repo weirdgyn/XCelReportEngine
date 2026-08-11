@@ -1,0 +1,25 @@
+<Project>
+  <Target
+    Name="StageXCelReportEngineForLabView"
+    AfterTargets="Build"
+    Condition="'$(MSBuildProjectName)' == 'XCelReportEngine' and '$(Configuration)' == 'Release' and '$(TargetFramework)' == 'net48' and '$(SkipLabViewStaging)' != 'true'">
+    <PropertyGroup>
+      <LabViewDotNetDirectory>$(MSBuildThisFileDirectory)LV\DotNet</LabViewDotNetDirectory>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <LabViewDotNetArtifacts Include="$(TargetPath)" />
+      <LabViewDotNetArtifacts Include="$(TargetDir)DocumentFormat.OpenXml.dll" />
+      <LabViewDotNetArtifacts Include="$(TargetDir)DocumentFormat.OpenXml.Framework.dll" />
+    </ItemGroup>
+
+    <Error
+      Condition="!Exists('%(LabViewDotNetArtifacts.Identity)')"
+      Text="Missing LabVIEW deployment artifact: %(LabViewDotNetArtifacts.Identity)" />
+    <MakeDir Directories="$(LabViewDotNetDirectory)" />
+    <Copy
+      SourceFiles="@(LabViewDotNetArtifacts)"
+      DestinationFolder="$(LabViewDotNetDirectory)"
+      SkipUnchangedFiles="true" />
+  </Target>
+</Project>

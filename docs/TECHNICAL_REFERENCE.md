@@ -28,6 +28,8 @@ Implementato:
 - inserimento immagini embedded con posizione A1 o coordinate zero-based;
 - dimensionamento nativo a 96 DPI logici e anchor DrawingML `oneCell`;
 - deduplicazione byte-per-byte delle immagini ripetute nello stesso worksheet;
+- allineamento, wrap e rotazione testo su celle o range;
+- riempimento e bordi applicabili indipendentemente su celle o range;
 - errori con codice stabile, nome, operazione e inner exception;
 - test automatici net48.
 
@@ -54,6 +56,10 @@ WriteCellBooleanByAddress(sessionId, cellAddress, value)
 WriteCellBooleanByIndex(sessionId, rowIndex, columnIndex, value)
 ReadStringRangeByIndex(sessionId, startRowIndex, startColumnIndex, rowCount, columnCount) -> string[]
 WriteStringRangeByIndex(sessionId, startRowIndex, startColumnIndex, rowCount, columnCount, values)
+SetCellAlignmentByAddress(sessionId, startCellAddress, endCellAddress, horizontalAlignment, verticalAlignment, wrapText, textRotation)
+SetCellAlignmentByIndex(sessionId, startRowIndex, startColumnIndex, rowCount, columnCount, horizontalAlignment, verticalAlignment, wrapText, textRotation)
+SetCellColorAndBorderByAddress(sessionId, startCellAddress, endCellAddress, applyFill, fillColor, applyBorder, borderColor, borderStyle, borderEdges)
+SetCellColorAndBorderByIndex(sessionId, startRowIndex, startColumnIndex, rowCount, columnCount, applyFill, fillColor, applyBorder, borderColor, borderStyle, borderEdges)
 AppendImage(sessionId, imagePath, rowIndex, columnIndex, cellAddress, alignment, caption) -> pictureIndex
 FormatImage(sessionId, measurementSystem, scaleFactor, pictureIndex, height, width, colorType)
 SaveWorkbook(sessionId)
@@ -67,6 +73,19 @@ Gli indici di riga e colonna sono base zero: `(0, 0)` corrisponde ad `A1`. Gli i
 I range di stringhe attraversano il confine .NET/LabVIEW come array monodimensionali in ordine row-major. L'elemento `(riga, colonna)` si trova all'indice `riga * columnCount + colonna`. I wrapper LabVIEW convertono tra questo formato e gli array 2D con `Reshape Array`. La lettura fallisce per l'intero range se contiene almeno una formula.
 
 Per `AppendImage`, una `cellAddress` non vuota ha precedenza sulle coordinate numeriche. `alignment` accetta i valori NI 0..8 e, come osservato nel backend Excel NI, non modifica il drawing; anche `caption` viene accettata ma ignorata. Il metodo restituisce il picture index zero-based. Il file viene incorporato senza ricodifica e senza relazione esterna al path sorgente.
+
+Le API di formattazione usano esclusivamente tipi semplici:
+
+- `horizontalAlignment`: 0 General, 1 Left, 2 Center, 3 Right, 4 Fill, 5 Justify, 6 CenterContinuous, 7 Distributed;
+- `verticalAlignment`: 0 Bottom, 1 Center, 2 Top, 3 Justify, 4 Distributed;
+- `textRotation`: valore OpenXML 0..180;
+- colori: `Int32` nel formato RGB `0xRRGGBB`;
+- `borderStyle`: 0 None, 1 Thin, 2 Medium, 3 Thick, 4 Double, 5 Dashed, 6 Dotted;
+- `borderEdges`: bit mask 1 Left, 2 Right, 4 Top, 8 Bottom; 15 indica tutti i lati.
+
+Un indirizzo finale vuoto indica la sola cella iniziale. `applyFill` e `applyBorder`
+consentono di modificare separatamente le due proprietà senza azzerare quella non
+richiesta. Tutti gli altri componenti dello stile originale vengono preservati.
 
 ## Build e test
 
@@ -82,7 +101,7 @@ Le DLL da distribuire saranno prodotte in `.net\src\XCelReportEngine\bin\Release
 ## Verifiche eseguite
 
 - build Release net48: 0 warning, 0 errori;
-- 20 test automatici superati;
+- 23 test automatici superati;
 - validazione schema Open XML degli output di test;
 - Lock ripetuto senza duplicazione di `SheetProtection`;
 - Unlock e successiva validazione;
@@ -94,6 +113,8 @@ Le DLL da distribuire saranno prodotte in `.net\src\XCelReportEngine\bin\Release
 - rifiuto esplicito della lettura di formule;
 - round-trip di range 2D di stringhe in ordine row-major;
 - validazione delle dimensioni e rilevamento delle formule nei range;
+- applicazione di allineamento su range con preservazione dei valori;
+- applicazione indipendente di riempimento e bordi con preservazione dello stile;
 - inserimento di immagini tramite coordinate e indirizzo A1;
 - precedenza dell'indirizzo A1, deduplicazione del media e ordine di inserimento;
 - smoke test sul template reale `NCH_2022_008_10_LXOD-RS_DRX_DIG.xltx` (11 worksheet, immagini e drawing): apertura, conversione, pubblicazione e riapertura riuscite; content type finale XLSX corretto.

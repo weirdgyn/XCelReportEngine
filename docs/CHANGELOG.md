@@ -17,3 +17,4 @@ Le modifiche rilevanti del progetto saranno documentate in questo file.
 - esclusi temporaneamente dal repository pubblico test e template LabVIEW non ancora sanitizzati;
 - escluse temporaneamente le analisi derivate da progetti e template aziendali;
 - implementati e verificati apertura, worksheet, celle, range, Lock/Unlock e immagini.
+- aggiunte API di formattazione OpenXML per allineamento, riempimento e bordi di celle e range.
