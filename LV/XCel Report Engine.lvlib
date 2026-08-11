@@ -5,10 +5,14 @@
 	<Property Name="NI.Lib.Version" Type="Str">1.0.0.0</Property>
 	<Property Name="NI.LV.All.SourceOnly" Type="Bool">true</Property>
 	<Item Name="Controls" Type="Folder">
+		<Item Name="Border edges.ctl" Type="VI" URL="../Controls/Border edges.ctl"/>
+		<Item Name="Border style.ctl" Type="VI" URL="../Controls/Border style.ctl"/>
+		<Item Name="Horizontal alignment.ctl" Type="VI" URL="../Controls/Horizontal alignment.ctl"/>
 		<Item Name="Image Alignment.ctl" Type="VI" URL="../Controls/Image Alignment.ctl"/>
 		<Item Name="Measurement System.ctl" Type="VI" URL="../Controls/Measurement System.ctl"/>
 		<Item Name="Picture Color Type.ctl" Type="VI" URL="../Controls/Picture Color Type.ctl"/>
 		<Item Name="Report Ref.ctl" Type="VI" URL="../Controls/Report Ref.ctl"/>
+		<Item Name="Vertical alignment.ctl" Type="VI" URL="../Controls/Vertical alignment.ctl"/>
 	</Item>
 	<Item Name="DotNet" Type="Folder">
 		<Item Name="DocumentFormat.OpenXml.dll" Type="Document" URL="../../.net/src/XCelReportEngine/bin/Release/net48/DocumentFormat.OpenXml.dll"/>
@@ -42,5 +46,7 @@
 		<Item Name="Format Image.vi" Type="VI" URL="../Public/Format Image.vi"/>
 		<Item Name="Coordinate2Address.vi" Type="VI" URL="../Public/Coordinate2Address.vi"/>
 		<Item Name="Address2Coordinate.vi" Type="VI" URL="../Public/Address2Coordinate.vi"/>
+		<Item Name="Set Cell Alignment.vi" Type="VI" URL="../Public/Set Cell Alignment.vi"/>
+		<Item Name="Set Cell Color and Border.vi" Type="VI" URL="../Public/Set Cell Color and Border.vi"/>
 	</Item>
 </Library>
