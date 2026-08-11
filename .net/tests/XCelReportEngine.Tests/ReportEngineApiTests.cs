@@ -331,6 +331,87 @@ namespace XCelReportEngine.Tests
             }
         }
 
+        [Fact]
+        public void SetCellAlignment_AppliesRangeAndPreservesCellValues()
+        {
+            using (var fixture = new WorkbookFixture())
+            using (var api = ReportEngineApi.Create())
+            {
+                var sessionId = api.OpenWorkbook(fixture.SourcePath, fixture.OutputPath);
+                api.SetCellAlignmentByAddress(sessionId, "A1", "B2", 2, 2, true, 45);
+                api.CloseWorkbook(sessionId, true);
+
+                using (var saved = SpreadsheetDocument.Open(fixture.OutputPath, false))
+                {
+                    var worksheet = saved.WorkbookPart!.WorksheetParts.First().Worksheet!;
+                    var cells = worksheet.Descendants<Cell>()
+                        .Where(cell => new[] { "A1", "B1", "A2", "B2" }.Contains(cell.CellReference?.Value))
+                        .ToArray();
+                    Assert.Equal(4, cells.Length);
+                    Assert.Equal("0", cells.Single(cell => cell.CellReference?.Value == "A1").CellValue?.Text);
+
+                    var formats = saved.WorkbookPart.WorkbookStylesPart!.Stylesheet!.CellFormats!;
+                    Assert.All(cells, cell =>
+                    {
+                        var format = formats.Elements<CellFormat>().ElementAt((int)cell.StyleIndex!.Value);
+                        Assert.Equal(HorizontalAlignmentValues.Center, format.Alignment!.Horizontal!.Value);
+                        Assert.Equal(VerticalAlignmentValues.Top, format.Alignment.Vertical!.Value);
+                        Assert.True(format.Alignment.WrapText!.Value);
+                        Assert.Equal(45U, format.Alignment.TextRotation!.Value);
+                    });
+                    AssertValid(saved);
+                }
+            }
+        }
+
+        [Fact]
+        public void SetCellColorAndBorder_CanApplyFillAndBorderIndependently()
+        {
+            using (var fixture = new WorkbookFixture())
+            using (var api = ReportEngineApi.Create())
+            {
+                var sessionId = api.OpenWorkbook(fixture.SourcePath, fixture.OutputPath);
+                api.SetCellColorAndBorderByIndex(sessionId, 0, 0, 1, 2, true, 0x12AB34, false, 0, 0, 0);
+                api.SetCellColorAndBorderByAddress(sessionId, "A1", "B1", false, 0, true, 0xCC3300, 1, 15);
+                api.CloseWorkbook(sessionId, true);
+
+                using (var saved = SpreadsheetDocument.Open(fixture.OutputPath, false))
+                {
+                    var workbookStyles = saved.WorkbookPart!.WorkbookStylesPart!.Stylesheet!;
+                    var cells = saved.WorkbookPart.WorksheetParts.First().Worksheet!.Descendants<Cell>()
+                        .Where(cell => cell.CellReference?.Value == "A1" || cell.CellReference?.Value == "B1")
+                        .ToArray();
+                    Assert.Equal(2, cells.Length);
+                    Assert.All(cells, cell =>
+                    {
+                        var format = workbookStyles.CellFormats!.Elements<CellFormat>().ElementAt((int)cell.StyleIndex!.Value);
+                        var fill = workbookStyles.Fills!.Elements<Fill>().ElementAt((int)format.FillId!.Value);
+                        Assert.Equal("FF12AB34", fill.PatternFill!.ForegroundColor!.Rgb!.Value);
+                        var border = workbookStyles.Borders!.Elements<Border>().ElementAt((int)format.BorderId!.Value);
+                        Assert.Equal(BorderStyleValues.Thin, border.LeftBorder!.Style!.Value);
+                        Assert.Equal("FFCC3300", border.BottomBorder!.Color!.Rgb!.Value);
+                    });
+                    AssertValid(saved);
+                }
+            }
+        }
+
+        [Fact]
+        public void CellFormatting_InvalidArgumentsProduceStableErrors()
+        {
+            using (var fixture = new WorkbookFixture())
+            using (var api = ReportEngineApi.Create())
+            {
+                var sessionId = api.OpenWorkbook(fixture.SourcePath, fixture.OutputPath);
+                Assert.Equal((int)ReportErrorCode.InvalidArgument,
+                    Assert.Throws<ReportEngineException>(() => api.SetCellAlignmentByAddress(sessionId, "A1", "A1", 99, 0, false, 0)).ErrorCode);
+                Assert.Equal((int)ReportErrorCode.InvalidRangeDimensions,
+                    Assert.Throws<ReportEngineException>(() => api.SetCellColorAndBorderByAddress(sessionId, "B2", "A1", true, 0, false, 0, 0, 0)).ErrorCode);
+                Assert.Equal((int)ReportErrorCode.InvalidArgument,
+                    Assert.Throws<ReportEngineException>(() => api.SetCellColorAndBorderByAddress(sessionId, "A1", "A1", true, -1, false, 0, 0, 0)).ErrorCode);
+            }
+        }
+
         private static void AssertValid(SpreadsheetDocument document)
         {
             var errors = new OpenXmlValidator().Validate(document).ToArray();

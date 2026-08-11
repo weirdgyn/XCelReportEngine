@@ -238,6 +238,88 @@ namespace XCelReportEngine
             }
         }
 
+        public void SetCellAlignmentByAddress(
+            int sessionId,
+            string startCellAddress,
+            string endCellAddress,
+            int horizontalAlignment,
+            int verticalAlignment,
+            bool wrapText,
+            int textRotation)
+        {
+            const string operation = "SetCellAlignmentByAddress";
+            var session = GetSession(sessionId);
+            lock (session.SyncRoot)
+            {
+                CellStyleService.SetAlignment(session, startCellAddress, endCellAddress, horizontalAlignment, verticalAlignment, wrapText, textRotation, operation);
+            }
+        }
+
+        public void SetCellAlignmentByIndex(
+            int sessionId,
+            int startRowIndex,
+            int startColumnIndex,
+            int rowCount,
+            int columnCount,
+            int horizontalAlignment,
+            int verticalAlignment,
+            bool wrapText,
+            int textRotation)
+        {
+            const string operation = "SetCellAlignmentByIndex";
+            CellAddress.ValidateRange(startRowIndex, startColumnIndex, rowCount, columnCount, operation);
+            var start = CellAddress.FromZeroBased(startRowIndex, startColumnIndex, operation);
+            var end = CellAddress.FromZeroBased(startRowIndex + rowCount - 1, startColumnIndex + columnCount - 1, operation);
+            var session = GetSession(sessionId);
+            lock (session.SyncRoot)
+            {
+                CellStyleService.SetAlignment(session, start, end, horizontalAlignment, verticalAlignment, wrapText, textRotation, operation);
+            }
+        }
+
+        public void SetCellColorAndBorderByAddress(
+            int sessionId,
+            string startCellAddress,
+            string endCellAddress,
+            bool applyFill,
+            int fillColor,
+            bool applyBorder,
+            int borderColor,
+            int borderStyle,
+            int borderEdges)
+        {
+            const string operation = "SetCellColorAndBorderByAddress";
+            var session = GetSession(sessionId);
+            lock (session.SyncRoot)
+            {
+                CellStyleService.SetColorAndBorder(session, startCellAddress, endCellAddress, applyFill, fillColor, applyBorder, borderColor, borderStyle, borderEdges, operation);
+            }
+        }
+
+        public void SetCellColorAndBorderByIndex(
+            int sessionId,
+            int startRowIndex,
+            int startColumnIndex,
+            int rowCount,
+            int columnCount,
+            bool applyFill,
+            int fillColor,
+            bool applyBorder,
+            int borderColor,
+            int borderStyle,
+            int borderEdges)
+        {
+            const string operation = "SetCellColorAndBorderByIndex";
+            CellAddress.ValidateRange(startRowIndex, startColumnIndex, rowCount, columnCount, operation);
+            var start = CellAddress.FromZeroBased(startRowIndex, startColumnIndex, operation);
+            var end = CellAddress.FromZeroBased(startRowIndex + rowCount - 1, startColumnIndex + columnCount - 1, operation);
+            var session = GetSession(sessionId);
+            lock (session.SyncRoot)
+            {
+                CellStyleService.SetColorAndBorder(session, start, end, applyFill, fillColor, applyBorder, borderColor, borderStyle, borderEdges, operation);
+            }
+        }
+
         public int AppendImage(
             int sessionId,
             string imagePath,

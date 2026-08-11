@@ -183,7 +183,7 @@ namespace XCelReportEngine.Internal
             return cell.CellValue?.Text ?? cell.InnerText ?? string.Empty;
         }
 
-        private static Cell GetOrCreateCell(WorkbookSession session, string address)
+        internal static Cell GetOrCreateCell(WorkbookSession session, string address)
         {
             var worksheet = GetWorksheet(session);
             var sheetData = worksheet.GetFirstChild<SheetData>();

@@ -25,6 +25,16 @@ namespace XCelReportEngine.Internal
             return columnName + (rowIndex + 1).ToString(CultureInfo.InvariantCulture);
         }
 
+        internal static string FromOneBased(uint rowNumber, uint columnNumber, string operation)
+        {
+            if (rowNumber == 0 || columnNumber == 0 || rowNumber > MaximumRowIndex + 1U || columnNumber > MaximumColumnIndex + 1U)
+            {
+                throw new ReportEngineException(ReportErrorCode.InvalidCellAddress, operation, "Cell coordinates are outside the Excel worksheet limits.");
+            }
+
+            return FromZeroBased(checked((int)rowNumber - 1), checked((int)columnNumber - 1), operation);
+        }
+
         internal static string Normalize(string address, string operation)
         {
             if (string.IsNullOrWhiteSpace(address))
