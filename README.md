@@ -22,3 +22,11 @@ dotnet test .net/XCelReportEngine.sln -c Release --no-build --no-restore -m:1
 ```
 
 La documentazione funzionale corrente è in [docs/TECHNICAL_REFERENCE.md](docs/TECHNICAL_REFERENCE.md). Le istruzioni per sviluppo, Git e LabVIEW sono in [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
+
+## Licenza
+
+XCelReportEngine è distribuito secondo i termini della licenza BSD 3-Clause (`BSD-3-Clause`).
+
+Copyright (c) 2026, Michele Santucci. Consultare [LICENSE.txt](LICENSE.txt) per il testo completo della licenza.
+
+Le componenti di terze parti distribuite con il package rimangono soggette alle rispettive licenze.
