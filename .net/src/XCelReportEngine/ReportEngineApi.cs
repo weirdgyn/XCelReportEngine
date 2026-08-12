@@ -36,6 +36,11 @@ namespace XCelReportEngine
             return _sessions.Open(sourcePath, outputPath);
         }
 
+        public void ValidateSession(int sessionId)
+        {
+            GetSession(sessionId);
+        }
+
         public string[] GetWorksheetNames(int sessionId)
         {
             var session = GetSession(sessionId);

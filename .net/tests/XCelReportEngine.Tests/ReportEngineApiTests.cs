@@ -131,6 +131,37 @@ namespace XCelReportEngine.Tests
         }
 
         [Fact]
+        public void ValidateSession_AcceptsAnOpenSession()
+        {
+            using (var fixture = new WorkbookFixture())
+            using (var api = ReportEngineApi.Create())
+            {
+                var sessionId = api.OpenWorkbook(fixture.SourcePath, fixture.OutputPath);
+
+                api.ValidateSession(sessionId);
+            }
+        }
+
+        [Fact]
+        public void ValidateSession_RejectsUnknownAndClosedSessions()
+        {
+            using (var fixture = new WorkbookFixture())
+            using (var api = ReportEngineApi.Create())
+            {
+                var unknown = Assert.Throws<ReportEngineException>(() => api.ValidateSession(999));
+                Assert.Equal((int)ReportErrorCode.SessionNotFound, unknown.ErrorCode);
+                Assert.Equal("Session", unknown.Operation);
+
+                var sessionId = api.OpenWorkbook(fixture.SourcePath, fixture.OutputPath);
+                api.CloseWorkbook(sessionId, false);
+
+                var closed = Assert.Throws<ReportEngineException>(() => api.ValidateSession(sessionId));
+                Assert.Equal((int)ReportErrorCode.SessionNotFound, closed.ErrorCode);
+                Assert.Equal("Session", closed.Operation);
+            }
+        }
+
+        [Fact]
         public void CellRead_HandlesSharedStringsBooleansBlanksAndRejectsFormulas()
         {
             using (var fixture = new WorkbookFixture())
