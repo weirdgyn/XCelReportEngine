@@ -41,22 +41,22 @@ Use the public VIs and type definitions as the supported API. Members located in
 		<Item Name="Lock Report.vi" Type="VI" URL="../Public/Lock Report.vi"/>
 		<Item Name="Unlock Report.vi" Type="VI" URL="../Public/Unlock Report.vi"/>
 		<Item Name="Get Worksheet Names.vi" Type="VI" URL="../Public/Get Worksheet Names.vi"/>
+		<Item Name="Get Active Worksheet Name.vi" Type="VI" URL="../Public/Get Active Worksheet Name.vi"/>
 		<Item Name="Select Worksheet.vi" Type="VI" URL="../Public/Select Worksheet.vi"/>
 		<Item Name="Select Worksheet by Name.vi" Type="VI" URL="../Public/Select Worksheet by Name.vi"/>
 		<Item Name="Select Worksheet by Index.vi" Type="VI" URL="../Public/Select Worksheet by Index.vi"/>
-		<Item Name="Get Active Worksheet Name.vi" Type="VI" URL="../Public/Get Active Worksheet Name.vi"/>
-		<Item Name="Read Cell String.vi" Type="VI" URL="../Public/Read Cell String.vi"/>
+		<Item Name="Write String Table.vi" Type="VI" URL="../Public/Write String Table.vi"/>
 		<Item Name="Write Cell.vi" Type="VI" URL="../Public/Write Cell.vi"/>
 		<Item Name="Write Cell String.vi" Type="VI" URL="../Public/Write Cell String.vi"/>
 		<Item Name="Write Cell Double.vi" Type="VI" URL="../Public/Write Cell Double.vi"/>
 		<Item Name="Write Cell Boolean.vi" Type="VI" URL="../Public/Write Cell Boolean.vi"/>
+		<Item Name="Read Cell String.vi" Type="VI" URL="../Public/Read Cell String.vi"/>
 		<Item Name="Read String Range.vi" Type="VI" URL="../Public/Read String Range.vi"/>
-		<Item Name="Write String Table.vi" Type="VI" URL="../Public/Write String Table.vi"/>
 		<Item Name="Append Image.vi" Type="VI" URL="../Public/Append Image.vi"/>
 		<Item Name="Format Image.vi" Type="VI" URL="../Public/Format Image.vi"/>
-		<Item Name="Coordinate2Address.vi" Type="VI" URL="../Public/Coordinate2Address.vi"/>
-		<Item Name="Address2Coordinate.vi" Type="VI" URL="../Public/Address2Coordinate.vi"/>
 		<Item Name="Set Cell Alignment.vi" Type="VI" URL="../Public/Set Cell Alignment.vi"/>
 		<Item Name="Set Cell Color and Border.vi" Type="VI" URL="../Public/Set Cell Color and Border.vi"/>
+		<Item Name="Coordinate2Address.vi" Type="VI" URL="../Public/Coordinate2Address.vi"/>
+		<Item Name="Address2Coordinate.vi" Type="VI" URL="../Public/Address2Coordinate.vi"/>
 	</Item>
 </Library>
