@@ -2,9 +2,10 @@
   <Target
     Name="StageXCelReportEngineForLabView"
     AfterTargets="Build"
-    Condition="'$(MSBuildProjectName)' == 'XCelReportEngine' and '$(Configuration)' == 'Release' and '$(TargetFramework)' == 'net48' and '$(SkipLabViewStaging)' != 'true'">
+    Condition="'$(MSBuildProjectName)' == 'XCelReportEngine' and '$(Configuration)' == 'Release' and ('$(TargetFramework)' == 'net40' or '$(TargetFramework)' == 'net48') and '$(SkipLabViewStaging)' != 'true'">
     <PropertyGroup>
-      <LabViewDotNetDirectory>$(MSBuildThisFileDirectory)LV\DotNet</LabViewDotNetDirectory>
+      <LabViewDotNetDirectory Condition="'$(TargetFramework)' == 'net48'">$(MSBuildThisFileDirectory)LV\DotNet</LabViewDotNetDirectory>
+      <LabViewDotNetDirectory Condition="'$(TargetFramework)' == 'net40'">$(MSBuildThisFileDirectory)LV2013\DotNet</LabViewDotNetDirectory>
     </PropertyGroup>
 
     <ItemGroup>

@@ -5,6 +5,7 @@
 TestResults/
 artifacts/
 LV/DotNet/
+LV2013/DotNet/
 *.user
 *.suo
 *.nupkg

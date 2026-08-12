@@ -160,7 +160,7 @@ namespace XCelReportEngine.Internal
             var worksheet = worksheetPart.Worksheet
                 ?? throw new ReportEngineException(ReportErrorCode.InvalidWorkbook, operation, "The active worksheet root element is missing.");
             var drawing = worksheetPart.DrawingsPart?.WorksheetDrawing;
-            var anchors = drawing?.Elements<Xdr.TwoCellAnchor>().ToArray() ?? Array.Empty<Xdr.TwoCellAnchor>();
+            var anchors = drawing?.Elements<Xdr.TwoCellAnchor>().ToArray() ?? new Xdr.TwoCellAnchor[0];
             var resolvedIndex = pictureIndex == -1 ? anchors.Length - 1 : pictureIndex;
             if (pictureIndex < -1 || resolvedIndex < 0 || resolvedIndex >= anchors.Length)
             {

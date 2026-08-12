@@ -86,6 +86,9 @@ Supported operations include workbook creation from Excel files or templates, wo
 		<Item Name="Package" Type="Folder">
 			<Item Name="XCel Report Engine.vipb" Type="Document" URL="../XCel Report Engine.vipb"/>
 		</Item>
+		<Item Name="Docs" Type="Folder">
+			<Item Name="XCel Report Engine.adoc.config" Type="Document" URL="../XCel Report Engine.adoc.config"/>
+		</Item>
 		<Item Name="XCel Report Engine.lvlib" Type="Library" URL="../XCel Report Engine.lvlib"/>
 		<Item Name="Dependencies" Type="Dependencies"/>
 		<Item Name="Build Specifications" Type="Build"/>

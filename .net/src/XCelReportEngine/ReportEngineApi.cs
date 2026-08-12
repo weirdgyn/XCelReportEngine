@@ -48,7 +48,7 @@ namespace XCelReportEngine
             {
                 return session.Workbook.Sheets?.Elements<Sheet>()
                     .Select(item => item.Name?.Value ?? string.Empty)
-                    .ToArray() ?? Array.Empty<string>();
+                    .ToArray() ?? new string[0];
             }
         }
 
@@ -87,7 +87,7 @@ namespace XCelReportEngine
             var session = GetSession(sessionId);
             lock (session.SyncRoot)
             {
-                var sheets = session.Workbook.Sheets?.Elements<Sheet>().ToArray() ?? Array.Empty<Sheet>();
+                var sheets = session.Workbook.Sheets?.Elements<Sheet>().ToArray() ?? new Sheet[0];
                 if (worksheetIndex < 0 || worksheetIndex >= sheets.Length)
                 {
                     throw new ReportEngineException(
