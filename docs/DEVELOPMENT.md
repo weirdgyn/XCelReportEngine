@@ -63,7 +63,7 @@ Le cartelle seguenti sono attualmente escluse da Git:
 LV/Test/
 LV/Templates/
 LV/Pre-Test/
-docs/REPORT_INVENTORY_DAS_054_3LIV.md
+docs/REPORT_INVENTORY.md
 docs/REPORT_LOCKER_ANALYSIS.md
 docs/TEMPLATE_ANALYSIS.md
 docs/data/workbook_analysis.json
