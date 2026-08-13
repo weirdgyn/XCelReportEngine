@@ -9,8 +9,8 @@ namespace XCelReportEngine.Internal
 {
     internal sealed class SessionRegistry : IDisposable
     {
-        private readonly object _syncRoot = new object();
-        private readonly Dictionary<int, WorkbookSession> _sessions = new Dictionary<int, WorkbookSession>();
+        private readonly object _syncRoot = new();
+        private readonly Dictionary<int, WorkbookSession> _sessions = [];
         private int _nextId;
         private bool _disposed;
 
@@ -114,7 +114,7 @@ namespace XCelReportEngine.Internal
                 }
 
                 _disposed = true;
-                sessions = new List<WorkbookSession>(_sessions.Values);
+                sessions = [.. _sessions.Values];
                 _sessions.Clear();
             }
 

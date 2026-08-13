@@ -43,12 +43,10 @@ namespace XCelReportEngine.Internal
             try
             {
                 content = File.ReadAllBytes(fullPath);
-                using (var stream = new MemoryStream(content, false))
-                using (var image = Image.FromStream(stream, false, true))
-                {
-                    widthPixels = image.Width;
-                    heightPixels = image.Height;
-                }
+                using var stream = new MemoryStream(content, false);
+                using var image = Image.FromStream(stream, false, true);
+                widthPixels = image.Width;
+                heightPixels = image.Height;
             }
             catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException || ex is ArgumentException)
             {
@@ -71,19 +69,14 @@ namespace XCelReportEngine.Internal
                 var relationshipId = worksheetPart.GetIdOfPart(drawingsPart);
                 worksheet.Append(new Drawing { Id = relationshipId });
             }
-            else if (drawingsPart.WorksheetDrawing == null)
-            {
-                drawingsPart.WorksheetDrawing = new Xdr.WorksheetDrawing();
-            }
+            else drawingsPart.WorksheetDrawing ??= new Xdr.WorksheetDrawing();
 
             var imagePart = FindIdenticalImagePart(drawingsPart, content);
             if (imagePart == null)
             {
                 imagePart = drawingsPart.AddImagePart(imageContentType);
-                using (var destination = imagePart.GetStream(FileMode.Create, FileAccess.Write))
-                {
-                    destination.Write(content, 0, content.Length);
-                }
+                using var destination = imagePart.GetStream(FileMode.Create, FileAccess.Write);
+                destination.Write(content, 0, content.Length);
             }
 
             var imageRelationshipId = drawingsPart.GetIdOfPart(imagePart);
@@ -160,7 +153,7 @@ namespace XCelReportEngine.Internal
             var worksheet = worksheetPart.Worksheet
                 ?? throw new ReportEngineException(ReportErrorCode.InvalidWorkbook, operation, "The active worksheet root element is missing.");
             var drawing = worksheetPart.DrawingsPart?.WorksheetDrawing;
-            var anchors = drawing?.Elements<Xdr.TwoCellAnchor>().ToArray() ?? new Xdr.TwoCellAnchor[0];
+            var anchors = drawing?.Elements<Xdr.TwoCellAnchor>().ToArray() ?? [];
             var resolvedIndex = pictureIndex == -1 ? anchors.Length - 1 : pictureIndex;
             if (pictureIndex < -1 || resolvedIndex < 0 || resolvedIndex >= anchors.Length)
             {
@@ -265,18 +258,15 @@ namespace XCelReportEngine.Internal
 
         private static string GetImageContentType(string path, string operation)
         {
-            switch (Path.GetExtension(path).ToLowerInvariant())
+            return Path.GetExtension(path).ToLowerInvariant() switch
             {
-                case ".png": return "image/png";
-                case ".jpg":
-                case ".jpeg": return "image/jpeg";
-                case ".gif": return "image/gif";
-                case ".bmp": return "image/bmp";
-                case ".tif":
-                case ".tiff": return "image/tiff";
-                default:
-                    throw new ReportEngineException(ReportErrorCode.UnsupportedImageType, operation, $"Unsupported image type: {Path.GetExtension(path)}");
-            }
+                ".png" => "image/png",
+                ".jpg" or ".jpeg" => "image/jpeg",
+                ".gif" => "image/gif",
+                ".bmp" => "image/bmp",
+                ".tif" or ".tiff" => "image/tiff",
+                _ => throw new ReportEngineException(ReportErrorCode.UnsupportedImageType, operation, $"Unsupported image type: {Path.GetExtension(path)}"),
+            };
         }
 
         private static ImagePart? FindIdenticalImagePart(DrawingsPart drawingsPart, byte[] content)
@@ -284,14 +274,12 @@ namespace XCelReportEngine.Internal
             var expectedHash = ComputeHash(content);
             foreach (var part in drawingsPart.ImageParts)
             {
-                using (var stream = part.GetStream(FileMode.Open, FileAccess.Read))
-                using (var sha256 = SHA256.Create())
+                using var stream = part.GetStream(FileMode.Open, FileAccess.Read);
+                using var sha256 = SHA256.Create();
+                var hash = sha256.ComputeHash(stream);
+                if (hash.SequenceEqual(expectedHash))
                 {
-                    var hash = sha256.ComputeHash(stream);
-                    if (hash.SequenceEqual(expectedHash))
-                    {
-                        return part;
-                    }
+                    return part;
                 }
             }
 
@@ -300,10 +288,8 @@ namespace XCelReportEngine.Internal
 
         private static byte[] ComputeHash(byte[] content)
         {
-            using (var sha256 = SHA256.Create())
-            {
-                return sha256.ComputeHash(content);
-            }
+            using var sha256 = SHA256.Create();
+            return sha256.ComputeHash(content);
         }
 
         private static EndMarker CalculateEndMarker(Worksheet worksheet, int rowIndex, int columnIndex, long widthEmus, long heightEmus)

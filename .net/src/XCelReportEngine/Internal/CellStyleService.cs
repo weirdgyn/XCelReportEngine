@@ -213,46 +213,46 @@ namespace XCelReportEngine.Internal
 
         private static HorizontalAlignmentValues GetHorizontalAlignment(int value, string operation)
         {
-            switch (value)
+            return value switch
             {
-                case 0: return HorizontalAlignmentValues.General;
-                case 1: return HorizontalAlignmentValues.Left;
-                case 2: return HorizontalAlignmentValues.Center;
-                case 3: return HorizontalAlignmentValues.Right;
-                case 4: return HorizontalAlignmentValues.Fill;
-                case 5: return HorizontalAlignmentValues.Justify;
-                case 6: return HorizontalAlignmentValues.CenterContinuous;
-                case 7: return HorizontalAlignmentValues.Distributed;
-                default: throw new ReportEngineException(ReportErrorCode.InvalidArgument, operation, $"Invalid horizontal alignment value: {value}");
-            }
+                0 => HorizontalAlignmentValues.General,
+                1 => HorizontalAlignmentValues.Left,
+                2 => HorizontalAlignmentValues.Center,
+                3 => HorizontalAlignmentValues.Right,
+                4 => HorizontalAlignmentValues.Fill,
+                5 => HorizontalAlignmentValues.Justify,
+                6 => HorizontalAlignmentValues.CenterContinuous,
+                7 => HorizontalAlignmentValues.Distributed,
+                _ => throw new ReportEngineException(ReportErrorCode.InvalidArgument, operation, $"Invalid horizontal alignment value: {value}"),
+            };
         }
 
         private static VerticalAlignmentValues GetVerticalAlignment(int value, string operation)
         {
-            switch (value)
+            return value switch
             {
-                case 0: return VerticalAlignmentValues.Bottom;
-                case 1: return VerticalAlignmentValues.Center;
-                case 2: return VerticalAlignmentValues.Top;
-                case 3: return VerticalAlignmentValues.Justify;
-                case 4: return VerticalAlignmentValues.Distributed;
-                default: throw new ReportEngineException(ReportErrorCode.InvalidArgument, operation, $"Invalid vertical alignment value: {value}");
-            }
+                0 => VerticalAlignmentValues.Bottom,
+                1 => VerticalAlignmentValues.Center,
+                2 => VerticalAlignmentValues.Top,
+                3 => VerticalAlignmentValues.Justify,
+                4 => VerticalAlignmentValues.Distributed,
+                _ => throw new ReportEngineException(ReportErrorCode.InvalidArgument, operation, $"Invalid vertical alignment value: {value}"),
+            };
         }
 
         private static BorderStyleValues GetBorderStyle(int value, string operation)
         {
-            switch (value)
+            return value switch
             {
-                case 0: return BorderStyleValues.None;
-                case 1: return BorderStyleValues.Thin;
-                case 2: return BorderStyleValues.Medium;
-                case 3: return BorderStyleValues.Thick;
-                case 4: return BorderStyleValues.Double;
-                case 5: return BorderStyleValues.Dashed;
-                case 6: return BorderStyleValues.Dotted;
-                default: throw new ReportEngineException(ReportErrorCode.InvalidArgument, operation, $"Invalid border style value: {value}");
-            }
+                0 => BorderStyleValues.None,
+                1 => BorderStyleValues.Thin,
+                2 => BorderStyleValues.Medium,
+                3 => BorderStyleValues.Thick,
+                4 => BorderStyleValues.Double,
+                5 => BorderStyleValues.Dashed,
+                6 => BorderStyleValues.Dotted,
+                _ => throw new ReportEngineException(ReportErrorCode.InvalidArgument, operation, $"Invalid border style value: {value}"),
+            };
         }
 
         private static void ValidateRgb(int color, string parameter, string operation)
@@ -263,7 +263,7 @@ namespace XCelReportEngine.Internal
             }
         }
 
-        private static HexBinaryValue ToArgb(int color) => new HexBinaryValue($"FF{color:X6}");
+        private static HexBinaryValue ToArgb(int color) => new($"FF{color:X6}");
 
         private static void Save(WorkbookSession session, Stylesheet styles)
         {

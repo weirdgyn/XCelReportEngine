@@ -42,27 +42,26 @@ namespace XCelReportEngine.Tests
 
         private static void CreateWorkbook(string path, SpreadsheetDocumentType type)
         {
-            using (var document = SpreadsheetDocument.Create(path, type))
-            {
-                var workbookPart = document.AddWorkbookPart();
-                workbookPart.Workbook = new Workbook();
-                var sharedStrings = workbookPart.AddNewPart<SharedStringTablePart>();
-                sharedStrings.SharedStringTable = new SharedStringTable(new SharedStringItem(new Text("shared text")));
-                var styles = workbookPart.AddNewPart<WorkbookStylesPart>();
-                styles.Stylesheet = new Stylesheet(
-                    new Fonts(new Font()) { Count = 1 },
-                    new Fills(
-                        new Fill(new PatternFill { PatternType = PatternValues.None }),
-                        new Fill(new PatternFill { PatternType = PatternValues.Gray125 })) { Count = 2 },
-                    new Borders(new Border()) { Count = 1 },
-                    new CellStyleFormats(new CellFormat()) { Count = 1 },
-                    new CellFormats(new CellFormat()) { Count = 1 },
-                    new CellStyles(new CellStyle { Name = "Normal", FormatId = 0, BuiltinId = 0 }) { Count = 1 });
-                var sheets = workbookPart.Workbook.AppendChild(new Sheets());
-                AddWorksheet(workbookPart, sheets, "First", 1, true);
-                AddWorksheet(workbookPart, sheets, "Second", 2);
-                workbookPart.Workbook.Save();
-            }
+            using var document = SpreadsheetDocument.Create(path, type);
+            var workbookPart = document.AddWorkbookPart();
+            workbookPart.Workbook = new Workbook();
+            var sharedStrings = workbookPart.AddNewPart<SharedStringTablePart>();
+            sharedStrings.SharedStringTable = new SharedStringTable(new SharedStringItem(new Text("shared text")));
+            var styles = workbookPart.AddNewPart<WorkbookStylesPart>();
+            styles.Stylesheet = new Stylesheet(
+                new Fonts(new Font()) { Count = 1 },
+                new Fills(
+                    new Fill(new PatternFill { PatternType = PatternValues.None }),
+                    new Fill(new PatternFill { PatternType = PatternValues.Gray125 }))
+                { Count = 2 },
+                new Borders(new Border()) { Count = 1 },
+                new CellStyleFormats(new CellFormat()) { Count = 1 },
+                new CellFormats(new CellFormat()) { Count = 1 },
+                new CellStyles(new CellStyle { Name = "Normal", FormatId = 0, BuiltinId = 0 }) { Count = 1 });
+            var sheets = workbookPart.Workbook.AppendChild(new Sheets());
+            AddWorksheet(workbookPart, sheets, "First", 1, true);
+            AddWorksheet(workbookPart, sheets, "Second", 2);
+            workbookPart.Workbook.Save();
         }
 
         private static void AddWorksheet(WorkbookPart workbookPart, Sheets sheets, string name, uint sheetId, bool addTestCells = false)

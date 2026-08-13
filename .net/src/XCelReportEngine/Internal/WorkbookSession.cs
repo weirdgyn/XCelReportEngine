@@ -18,12 +18,7 @@ namespace XCelReportEngine.Internal
             StagingPath = stagingPath;
             Document = document;
 
-            var firstSheet = Workbook.Sheets?.Elements<Sheet>().FirstOrDefault();
-            if (firstSheet == null)
-            {
-                throw new ReportEngineException(ReportErrorCode.InvalidWorkbook, "OpenWorkbook", "The workbook does not contain any worksheets.");
-            }
-
+            var firstSheet = (Workbook.Sheets?.Elements<Sheet>().FirstOrDefault()) ?? throw new ReportEngineException(ReportErrorCode.InvalidWorkbook, "OpenWorkbook", "The workbook does not contain any worksheets.");
             ActiveSheetId = firstSheet.Id?.Value ?? string.Empty;
         }
 
@@ -124,7 +119,7 @@ namespace XCelReportEngine.Internal
                 TryDelete(publishPath);
                 throw new ReportEngineException(ReportErrorCode.OutputFileLocked, "SaveWorkbook", $"Unable to publish workbook: {OutputPath}", ex);
             }
-            catch (Exception ex) when (!(ex is ReportEngineException))
+            catch (Exception ex) when (ex is not ReportEngineException)
             {
                 TryDelete(publishPath);
                 throw new ReportEngineException(ReportErrorCode.SaveFailed, "SaveWorkbook", $"Unable to save workbook: {OutputPath}", ex);

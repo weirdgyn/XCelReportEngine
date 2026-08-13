@@ -7,7 +7,7 @@ namespace XCelReportEngine
 {
     public sealed class ReportEngineApi : IDisposable
     {
-        private readonly SessionRegistry _sessions = new SessionRegistry();
+        private readonly SessionRegistry _sessions = new();
         private bool _disposed;
 
         public static ReportEngineApi Create()
@@ -27,7 +27,7 @@ namespace XCelReportEngine
                 "ConvertCellAddressToIndex",
                 out var rowIndex,
                 out var columnIndex);
-            return new[] { rowIndex, columnIndex };
+            return [rowIndex, columnIndex];
         }
 
         public int OpenWorkbook(string sourcePath, string outputPath)
@@ -48,7 +48,7 @@ namespace XCelReportEngine
             {
                 return session.Workbook.Sheets?.Elements<Sheet>()
                     .Select(item => item.Name?.Value ?? string.Empty)
-                    .ToArray() ?? new string[0];
+                    .ToArray() ?? [];
             }
         }
 
@@ -71,13 +71,8 @@ namespace XCelReportEngine
             var session = GetSession(sessionId);
             lock (session.SyncRoot)
             {
-                var sheet = session.Workbook.Sheets?.Elements<Sheet>()
-                    .FirstOrDefault(item => string.Equals(item.Name?.Value, worksheetName, StringComparison.Ordinal));
-                if (sheet == null)
-                {
-                    throw new ReportEngineException(ReportErrorCode.WorksheetNotFound, "SelectWorksheetByName", $"Worksheet not found: {worksheetName}");
-                }
-
+                var sheet = (session.Workbook.Sheets?.Elements<Sheet>()
+                    .FirstOrDefault(item => string.Equals(item.Name?.Value, worksheetName, StringComparison.Ordinal))) ?? throw new ReportEngineException(ReportErrorCode.WorksheetNotFound, "SelectWorksheetByName", $"Worksheet not found: {worksheetName}");
                 session.ActiveSheetId = sheet.Id?.Value ?? string.Empty;
             }
         }
@@ -87,7 +82,7 @@ namespace XCelReportEngine
             var session = GetSession(sessionId);
             lock (session.SyncRoot)
             {
-                var sheets = session.Workbook.Sheets?.Elements<Sheet>().ToArray() ?? new Sheet[0];
+                var sheets = session.Workbook.Sheets?.Elements<Sheet>().ToArray() ?? [];
                 if (worksheetIndex < 0 || worksheetIndex >= sheets.Length)
                 {
                     throw new ReportEngineException(

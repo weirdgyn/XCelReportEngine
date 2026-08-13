@@ -187,10 +187,7 @@ namespace XCelReportEngine.Internal
         {
             var worksheet = GetWorksheet(session);
             var sheetData = worksheet.GetFirstChild<SheetData>();
-            if (sheetData == null)
-            {
-                sheetData = worksheet.PrependChild(new SheetData());
-            }
+            sheetData ??= worksheet.PrependChild(new SheetData());
 
             CellAddress.Parse(address, out var rowNumber, out var columnNumber);
             var row = sheetData.Elements<Row>().FirstOrDefault(item => item.RowIndex?.Value == rowNumber);
