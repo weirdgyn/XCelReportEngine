@@ -4,6 +4,9 @@ Le modifiche rilevanti del progetto saranno documentate in questo file.
 
 ## Unreleased
 
+- aggiunto supporto per .net40/LabVIEW 2013 (untested)
+- aggiunte icone, packaging configuration (VIPM)
+- aggiunta configurazione per antidoc
 - rinominato il componente in `XCelReportEngine`;
 - separati gli ambienti `.net`, `LV`, `docs` e `tools`;
 - aggiunta configurazione Git per i binari LabVIEW;
