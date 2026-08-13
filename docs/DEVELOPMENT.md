@@ -6,6 +6,7 @@
 - LabVIEW 2026;
 - .NET SDK 10 con targeting pack .NET Framework 4.8;
 - accesso ai pacchetti NuGet oppure cache locale già popolata.
+- per la versione LabVIEW 2013 è necessario il targeting pack .NET Framework 4;
 
 ## Build riproducibile
 
