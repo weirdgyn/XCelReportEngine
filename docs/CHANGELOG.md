@@ -6,6 +6,8 @@ Italian version: [CHANGELOG-IT.md](CHANGELOG-IT.md).
 
 - Added the canonical product roadmap and repository-wide project instructions.
 - Added the initial NI Toolkit parity inventory and current implementation mapping.
+- Added the NI-to-XCelReportEngine VI migration map and adopted one-to-one compatibility facades as a roadmap requirement.
+- Added the detailed LabVIEW VI naming, composition, reusable subVI, backend-boundary, and LabVIEW 2013 mirroring plan.
 - Defined ActiveX, COM, Office automation, and cell calculation as permanent compatibility-scope exclusions.
 - Added automated execution of the same 25 backend tests on .NET Framework 4.0 and 4.8.
 - Made English the default documentation language and retained Italian documents with an `-IT` suffix.

@@ -46,6 +46,13 @@ WordprocessingML/DOCX support is a possible future extension, not part of the cu
 
 - Use the NI LabVIEW Report Generation Toolkit Programming Reference Manual as the behavioral inventory source.
 - Record every public NI VI and polymorphic instance in [docs/NI_TOOLKIT_PARITY_MATRIX.md](docs/NI_TOOLKIT_PARITY_MATRIX.md).
+- Maintain [docs/NI_VI_MIGRATION_MAP.md](docs/NI_VI_MIGRATION_MAP.md) as the user-facing one-to-one replacement map.
+- Follow [docs/LABVIEW_VI_NAMING_AND_COMPOSITION_PLAN.md](docs/LABVIEW_VI_NAMING_AND_COMPOSITION_PLAN.md) for VI naming, facade composition, primitive reuse, backend boundaries, and LabVIEW 2013 mirroring.
+- Prefer one public XCelReportEngine compatibility-facade VI for each eligible public NI VI. A multi-VI replacement sequence is transitional and should ultimately be wrapped by a single facade VI.
+- Match NI connector-pane placement, defaults, enum ordering, data shapes, and polymorphic instances wherever the different report-reference type permits.
+- Keep the lower-level native XCelReportEngine VIs available beneath the compatibility facade.
+- Implement NI workflow semantics in reusable LabVIEW subVIs whenever practical. Add .NET methods only for generic Open XML operations, efficient bulk transfers, or package-level behavior that should not be implemented in G.
+- Use project-owned compatibility icons. Do not copy NI icon assets into the public repository unless redistribution rights are confirmed; link to official NI icon/reference pages instead.
 - Classify each operation as matched, partially matched, planned, requiring characterization, intentionally different, or excluded with a reason.
 - Do not claim percentage coverage until the eligible inventory and denominator are versioned.
 - Prefer behavioral clean-room characterization and semantic Open XML comparison. Do not copy or redistribute NI implementation assets.

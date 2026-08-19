@@ -8,6 +8,8 @@ Le modifiche rilevanti del progetto saranno documentate in questo file.
 
 - aggiunte la roadmap canonica del prodotto e le istruzioni generali di progetto valide per l'intero repository;
 - aggiunto l'inventario iniziale di parità con il NI Toolkit e la mappatura dell'implementazione corrente;
+- aggiunta la mappa di migrazione delle VI NI verso XCelReportEngine e adottate le facade di compatibilità 1:1 come requisito della roadmap;
+- aggiunto il piano dettagliato per naming delle VI LabVIEW, composizione delle facade, subVI riutilizzabili, confini del backend e mirroring LabVIEW 2013;
 - definite ActiveX, COM, automazione Office e calcolo delle celle come esclusioni permanenti dal perimetro di compatibilità;
 - aggiunta l'esecuzione automatica degli stessi 25 test backend su .NET Framework 4.0 e 4.8;
 - resa predefinita la documentazione inglese, conservando le versioni italiane con suffisso `-IT`;

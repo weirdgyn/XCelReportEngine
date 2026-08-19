@@ -14,6 +14,10 @@ The behavioral inventory is based on the [NI LabVIEW Report Generation Toolkit P
 
 The project maintains its living compatibility inventory in [NI_TOOLKIT_PARITY_MATRIX.md](NI_TOOLKIT_PARITY_MATRIX.md). The matrix must be complete before publishing a numeric coverage claim. The documentation snapshot date or NI manual revision used for the matrix must be recorded because palette contents can vary by LabVIEW version, target, operating system, and installed licenses.
 
+The user-facing one-to-one replacement catalog is [NI_VI_MIGRATION_MAP.md](NI_VI_MIGRATION_MAP.md). Behavioral coverage and migration ergonomics are related but distinct: a backend capability is not considered migration-friendly until an eligible NI VI has a direct XCelReportEngine compatibility facade or a documented temporary replacement sequence.
+
+Detailed VI naming, composition recipes, reusable subVI work packages, and backend boundaries are defined in [LABVIEW_VI_NAMING_AND_COMPOSITION_PLAN.md](LABVIEW_VI_NAMING_AND_COMPOSITION_PLAN.md).
+
 ## Active scope
 
 The target is complete coverage of every technically eligible operation in these groups:
@@ -210,7 +214,9 @@ Mark ActiveX references, macro execution, calculation, live refresh, printing, a
 ### Phase 8 — LabVIEW API parity and packaging
 
 - provide LabVIEW 2026 wrappers for every matched operation;
+- provide one public compatibility-facade VI for every eligible public NI VI, using multi-VI sequences only as temporary migration guidance;
 - reproduce relevant NI names, defaults, dataflow, error-cluster behavior, and polymorphic instances without copying NI implementation assets;
+- maintain connector-pane and icon comparisons in [NI_VI_MIGRATION_MAP.md](NI_VI_MIGRATION_MAP.md);
 - organize palettes by General, Easy, Format, Graphs and Pictures, and Advanced;
 - maintain simple .NET signatures suited to Constructor and Invoke Nodes;
 - export corresponding LabVIEW 2013 wrappers where feasible;
@@ -263,6 +269,8 @@ Word/DOCX support is not part of the active roadmap. If approved later, it shoul
 
 - [TECHNICAL_REFERENCE.md](TECHNICAL_REFERENCE.md) — implemented API and behavior.
 - [NI_TOOLKIT_PARITY_MATRIX.md](NI_TOOLKIT_PARITY_MATRIX.md) — canonical NI VI inventory and coverage status.
+- [NI_VI_MIGRATION_MAP.md](NI_VI_MIGRATION_MAP.md) — direct NI-to-XCelReportEngine VI replacement catalog.
+- [LABVIEW_VI_NAMING_AND_COMPOSITION_PLAN.md](LABVIEW_VI_NAMING_AND_COMPOSITION_PLAN.md) — detailed naming, facade, subVI, and backend implementation plan.
 - [DEVELOPMENT.md](DEVELOPMENT.md) — build, test, CI, LabVIEW, and Git procedures.
 - [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) — accepted architectural decisions.
 - [IMAGE_TEST_RESULTS.md](IMAGE_TEST_RESULTS.md) — NI image behavior characterization.

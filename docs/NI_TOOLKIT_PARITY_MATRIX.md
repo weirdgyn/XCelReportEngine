@@ -4,6 +4,8 @@
 
 This document is the canonical compatibility inventory for XCelReportEngine. It maps public NI LabVIEW Report Generation Toolkit VIs and polymorphic instances to the current backend API, LabVIEW wrappers, tests, exclusions, and remaining work.
 
+Direct user migration mappings, connector compatibility, icons, and temporary multi-VI sequences are maintained separately in [NI_VI_MIGRATION_MAP.md](NI_VI_MIGRATION_MAP.md).
+
 The inventory source is the [NI LabVIEW Report Generation Toolkit Programming Reference Manual](https://www.ni.com/docs/en-US/bundle/lvrgt-api-ref/page/functions/report-generation-vis.html), currently using the documentation revision updated on 2026-02-03.
 
 This matrix is intentionally a living document. The initial entries below cover the public VIs already identified and the XCelReportEngine operations already implemented. Child inventories for the dynamically rendered NI subpalettes must be expanded from their individual NI reference pages before a numeric compatibility percentage is published.
@@ -171,6 +173,7 @@ Each completed inventory row must identify the connector contract, default value
 ## Related documents
 
 - [RoadMap.md](RoadMap.md) — scope, phases, and definition of done.
+- [NI_VI_MIGRATION_MAP.md](NI_VI_MIGRATION_MAP.md) — direct NI-to-XCelReportEngine replacement map.
 - [TECHNICAL_REFERENCE.md](TECHNICAL_REFERENCE.md) — implemented public contract.
 - [IMAGE_TEST_RESULTS.md](IMAGE_TEST_RESULTS.md) — characterized NI image behavior.
 - [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) — accepted architecture.
