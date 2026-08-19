@@ -19,7 +19,7 @@ The facade optimizes migration. The primitive layer optimizes LabVIEW reuse. The
 ## Governing principles
 
 1. Prefer one public compatibility-facade VI for every eligible public NI VI.
-2. Match the official NI functional name as closely as practical.
+2. Match the distinctive part of the official NI functional name as closely as practical, omitting context already supplied by the XCelReportEngine package.
 3. Match connector-pane positions, required/recommended/optional terminals, defaults, enum ordering, array dimensions, and error flow wherever types permit.
 4. Do not reproduce an NI-specific VI as a dedicated .NET method when it can be composed cleanly in LabVIEW.
 5. Add .NET methods for reusable Open XML primitives, bulk data transfer, package traversal, and operations requiring semantic package knowledge.
@@ -33,23 +33,25 @@ The facade optimizes migration. The primitive layer optimizes LabVIEW reuse. The
 
 ### Compatibility facade
 
-Use the documented NI functional name, including the `Excel` prefix and `VI` filename convention where applicable:
+Use the distinctive functional portion of the documented NI name. Do not add the redundant `Excel` prefix: the package and palette already establish that context. Likewise, `VI` is a documentation label, not part of a `.vi` filename. Add a technology prefix only if a real name collision exists inside the package.
 
 ```text
-Excel Easy Title.vi
-Excel Easy Text.vi
-Excel Easy Table.vi
-Excel Easy Table (str).vi
-Excel Easy Table (num).vi
-Excel Easy Graph.vi
-Excel Set Cell Alignment.vi
-Excel Set Cell Color and Border.vi
-Excel Format Image.vi
+Easy Title.vi
+Easy Text.vi
+Easy Table.vi
+Easy Table (str).vi
+Easy Table (num).vi
+Easy Graph.vi
+Set Cell Alignment.vi
+Set Cell Color and Border.vi
+Format Image.vi
 Save Report to File.vi
 Dispose Report.vi
 ```
 
 These VIs belong in the public compatibility palettes and should use project-owned icons carrying a consistent XCelReportEngine compatibility badge.
+
+If a future Word report engine is developed, it should be delivered as a separate package. Names are therefore resolved within their package rather than pre-emptively encoding `Excel` or `Word` in every VI filename.
 
 ### Native public primitives
 
@@ -84,12 +86,12 @@ Validate Table Dimensions.vi
 
 ### Polymorphic instances
 
-The public polymorphic VI and instance suffixes should follow the official NI documentation when known. Do not invent alternative abbreviations after the inventory is fixed:
+The public polymorphic VI and instance suffixes should follow the official NI documentation when known, while still omitting the redundant package prefix. Do not invent alternative abbreviations after the inventory is fixed:
 
 ```text
-Excel Easy Table.vi
-  Excel Easy Table (str).vi
-  Excel Easy Table (num).vi
+Easy Table.vi
+  Easy Table (str).vi
+  Easy Table (num).vi
 ```
 
 Native typed primitives may use explicit CLR/LabVIEW type names when they are not compatibility facades:
@@ -109,24 +111,24 @@ No binary rename should be executed until the exact NI row and connector contrac
 | `New Report.vi` | Public lifecycle facade | Keep provisionally; confirm exact NI Create/New Report name | Align connector and defaults after inventory |
 | `Save Report.vi` | Native save primitive | `XRE Save Workbook.vi` | Add `Save Report to File.vi` facade; keep deprecated forwarding wrapper for one compatibility release |
 | `Close Report.vi` | Native close primitive | `XRE Close Workbook.vi` | Add `Dispose Report.vi` facade; preserve old wrapper during transition |
-| `Lock Report.vi` | Native worksheet protection primitive | `XRE Lock Worksheets.vi` | Add exact NI Excel facade after inventory |
-| `Unlock Report.vi` | Native worksheet protection primitive | `XRE Unlock Worksheets.vi` | Add exact NI Excel facade after inventory |
+| `Lock Report.vi` | Native worksheet protection primitive | `XRE Lock Worksheets.vi` | Add the NI-compatible facade after inventory, without a redundant `Excel` prefix |
+| `Unlock Report.vi` | Native worksheet protection primitive | `XRE Unlock Worksheets.vi` | Add the NI-compatible facade after inventory, without a redundant `Excel` prefix |
 | `Get Worksheet Names.vi` | Native worksheet primitive | `XRE Get Worksheet Names.vi` | Add exact NI facade only if a documented NI counterpart exists |
 | `Get Active Worksheet Name.vi` | Native helper | `XRE Get Active Worksheet Name.vi` | Keep as project helper unless NI mapping is found |
-| `Select Worksheet.vi` | Native polymorphic primitive | `XRE Select Worksheet.vi` | Compatibility facade should use the exact NI worksheet VI name |
+| `Select Worksheet.vi` | Native polymorphic primitive | `XRE Select Worksheet.vi` | Compatibility facade should use the distinctive NI worksheet function name |
 | `Select Worksheet by Name.vi` | Native instance | `XRE Select Worksheet by Name.vi` | Move behind native polymorphic VI or compatibility facade |
 | `Select Worksheet by Index.vi` | Native instance | `XRE Select Worksheet by Index.vi` | Move behind native polymorphic VI or compatibility facade |
 | `Write Cell.vi` | Native polymorphic primitive | `XRE Write Cell.vi` | Retain as reusable low-level API |
 | `Write Cell String.vi` | Native typed instance | `XRE Write Cell String.vi` | Used by Easy Text/Title facades |
 | `Write Cell Double.vi` | Native typed instance | `XRE Write Cell Double.vi` | Used by numeric table fallback and direct users |
 | `Write Cell Boolean.vi` | Native typed instance | `XRE Write Cell Boolean.vi` | Retain as native typed write |
-| `Write String Table.vi` | Native bulk primitive | `XRE Write String Range.vi` | Used by `Excel Easy Table (str).vi` |
+| `Write String Table.vi` | Native bulk primitive | `XRE Write String Range.vi` | Used by `Easy Table (str).vi` |
 | `Read Cell String.vi` | Native read primitive | `XRE Read Cell String.vi` | Add exact NI typed facade after inventory |
 | `Read String Range.vi` | Native bulk primitive | `XRE Read String Range.vi` | Add exact NI typed facade after inventory |
-| `Append Image.vi` | Native picture primitive | `XRE Append Picture.vi` | Add generic/Excel NI-compatible append facade(s) |
-| `Format Image.vi` | Near-compatible Excel operation | `Excel Format Image.vi` facade over `XRE Format Picture.vi` | Split facade from native primitive when connector contract is fixed |
-| `Set Cell Alignment.vi` | Native formatting primitive | `XRE Set Cell Alignment.vi` | Add `Excel Set Cell Alignment.vi` facade |
-| `Set Cell Color and Border.vi` | Native formatting primitive | `XRE Set Cell Color and Border.vi` | Add `Excel Set Cell Color and Border.vi` facade |
+| `Append Image.vi` | Native picture primitive or compatibility facade | `Append Image to Report.vi` facade over `XRE Append Picture.vi` | Keep the shorter current name only if its connector contract already matches the selected NI operation |
+| `Format Image.vi` | Near-compatible operation | `Format Image.vi` facade over `XRE Format Picture.vi` | Split facade from native primitive only if the connector contracts differ |
+| `Set Cell Alignment.vi` | Native formatting primitive or compatibility facade | `Set Cell Alignment.vi` facade over `XRE Set Cell Alignment.vi` | Keep the current file as the facade if its connector contract can be aligned compatibly |
+| `Set Cell Color and Border.vi` | Native formatting primitive or compatibility facade | `Set Cell Color and Border.vi` facade over `XRE Set Cell Color and Border.vi` | Keep the current file as the facade if its connector contract can be aligned compatibly |
 | `Coordinate2Address.vi` | Project helper | `XRE Coordinate to Address.vi` | Keep outside NI coverage percentage |
 | `Address2Coordinate.vi` | Project helper | `XRE Address to Coordinate.vi` | Keep outside NI coverage percentage |
 
@@ -206,7 +208,7 @@ Do not add backend methods named after `Excel Easy Title`, `Excel Easy Text`, or
 
 ## Detailed composition recipes
 
-### Excel Easy Title VI
+### Easy Title (`Excel Easy Title VI` in NI documentation)
 
 Proposed facade sequence:
 
@@ -229,7 +231,7 @@ Required new work:
 
 No Easy Title-specific backend call is required.
 
-### Excel Easy Text VI
+### Easy Text (`Excel Easy Text VI` in NI documentation)
 
 Proposed facade sequence:
 
@@ -251,7 +253,7 @@ Required new work:
 - mapping of alignment, background, border, or style inputs present in the Excel instance;
 - tests for default target and named-range precedence.
 
-### Excel Easy Table (str) VI
+### Easy Table (str) (`Excel Easy Table (str) VI` in NI documentation)
 
 Proposed facade sequence:
 
@@ -276,7 +278,7 @@ Required characterization:
 - empty arrays and zero-sized dimensions;
 - auto-format precedence over explicit font settings.
 
-### Excel Easy Table (num) VI
+### Easy Table (num) (`Excel Easy Table (num) VI` in NI documentation)
 
 Use the same composition as the string instance, replacing bulk string write with `XRE Write Double Range`.
 
@@ -288,7 +290,7 @@ Required backend support:
 - optional generic typed range read if required by the NI contract;
 - number-format application.
 
-### Excel Easy Graph VI
+### Easy Graph (`Excel Easy Graph VI` in NI documentation)
 
 Proposed facade sequence:
 
@@ -313,7 +315,7 @@ Required characterization:
 - graph placement and sizing;
 - behavior for unsupported or renderer-dependent chart types.
 
-### Save Report to File VI
+### Save Report to File
 
 Proposed facade sequence:
 
@@ -327,7 +329,7 @@ Validate report reference and path/defaults
 
 Add a generic backend Save As operation only if the NI contract requires changing the session output path. Do not add printing, PDF export, or Office format conversion.
 
-### Dispose Report VI
+### Dispose Report
 
 Proposed facade sequence:
 
@@ -339,7 +341,7 @@ Validate report reference
 → translate error
 ```
 
-### Append Image to Report / Excel Format Image
+### Append Image to Report / Format Image
 
 Keep append and formatting as separate reusable primitives. Generic compatibility wrappers may compose:
 
@@ -375,8 +377,8 @@ Retain the characterized intentional differences documented in [IMAGE_TEST_RESUL
 
 1. Add reusable font typedefs and conversion subVIs.
 2. Add the generic backend font/range operation and named-range resolver.
-3. Implement `Excel Easy Title.vi` solely by composition.
-4. Implement `Excel Easy Text.vi` solely by composition.
+3. Implement `Easy Title.vi` solely by composition.
+4. Implement `Easy Text.vi` solely by composition.
 5. Characterize defaults and compare output workbooks semantically with NI.
 
 ### Work package D — Easy Table
@@ -385,7 +387,7 @@ Retain the characterized intentional differences documented in [IMAGE_TEST_RESUL
 2. Add generic bulk double write and generic number formatting to the backend.
 3. Normalize the current string table primitive.
 4. Implement string and numeric facade instances.
-5. Assemble the polymorphic `Excel Easy Table.vi`.
+5. Assemble the polymorphic `Easy Table.vi`.
 6. Verify large-table performance and style reuse.
 
 ### Work package E — Graph foundation
@@ -394,7 +396,7 @@ Retain the characterized intentional differences documented in [IMAGE_TEST_RESUL
 2. Define generic chart DTO inputs compatible with LabVIEW simple types.
 3. Implement generic ChartML creation in .NET.
 4. Implement graph-type and series-building subVIs in G.
-5. Implement `Excel Easy Graph.vi` as a facade.
+5. Implement `Easy Graph.vi` as a facade.
 6. Add golden package and desktop rendering verification.
 
 ### Work package F — Mirroring to LabVIEW 2013
