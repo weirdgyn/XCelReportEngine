@@ -1,23 +1,17 @@
 # Changelog
 
-Le modifiche rilevanti del progetto saranno documentate in questo file.
+Italian version: [CHANGELOG-IT.md](CHANGELOG-IT.md).
 
 ## Unreleased
 
-- aggiunto supporto per .net40/LabVIEW 2013 (untested)
-- aggiunte icone, packaging configuration (VIPM)
-- aggiunta configurazione per antidoc
-- rinominato il componente in `XCelReportEngine`;
-- separati gli ambienti `.net`, `LV`, `docs` e `tools`;
-- aggiunta configurazione Git per i binari LabVIEW;
-- aggiunti lock file NuGet e build GitHub Actions su Windows;
-- isolato il parsing degli indirizzi Excel nel componente interno `CellAddress`;
-- ottimizzata la lettura dei range evitando scansioni XML ripetute;
-- aggiunti helper pubblici per convertire coordinate base zero e indirizzi A1;
-- aggiunti i wrapper LabVIEW `Coordinate2Address.vi` e `Address2Coordinate.vi`;
-- aggiunte le VI polimorfiche LabVIEW `Select Worksheet.vi` e `Write Cell.vi`;
-- validate in LabVIEW le VI polimorfiche e le conversioni coordinate/A1, incluso il caso di indirizzo non valido;
-- esclusi temporaneamente dal repository pubblico test e template LabVIEW non ancora sanitizzati;
-- escluse temporaneamente le analisi derivate da progetti e template aziendali;
-- implementati e verificati apertura, worksheet, celle, range, Lock/Unlock e immagini.
-- aggiunte API di formattazione OpenXML per allineamento, riempimento e bordi di celle e range.
+- Added automated execution of the same 25 backend tests on .NET Framework 4.0 and 4.8.
+- Made English the default documentation language and retained Italian documents with an `-IT` suffix.
+- Documented the current LabVIEW 2013 build and test limitations.
+- Added experimental .NET Framework 4.0/LabVIEW 2013 support.
+- Added icons, VIPM packaging configuration, and Antidoc configuration.
+- Renamed the component to `XCelReportEngine` and separated `.net`, `LV`, `docs`, and `tools`.
+- Added Git configuration for LabVIEW binaries, NuGet lock files, and Windows CI.
+- Isolated Excel address parsing and optimized range reads.
+- Added coordinate/A1 helpers, LabVIEW wrappers, and polymorphic worksheet/cell VIs.
+- Temporarily excluded unsanitized LabVIEW tests, templates, and company-derived analyses.
+- Implemented and verified workbook lifecycle, worksheets, cells, ranges, protection, images, alignment, fills, and borders.

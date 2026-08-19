@@ -1,44 +1,36 @@
-# Decisioni architetturali
+# Architecture decisions
 
-## ADR-001 — Target .NET del backend LabVIEW
+Italian version: [ARCHITECTURE_DECISIONS-IT.md](ARCHITECTURE_DECISIONS-IT.md).
 
-Stato: accettato
+## ADR-001 — .NET target for the LabVIEW backend
 
-### Contesto
+Status: accepted, later extended by ADR-002.
 
-- ambiente corrente: LabVIEW 2026;
-- applicazioni legacy: alcune in LabVIEW 2013, non considerate requisito di retrocompatibilita' iniziale;
-- integrazione prevista: assembly caricato in-process tramite i nodi .NET di LabVIEW;
-- backend: Open XML SDK;
-- piattaforma: Windows, AnyCPU.
+### Context
 
-### Decisione
+- Current environment: LabVIEW 2026.
+- Integration: an in-process assembly loaded through LabVIEW .NET nodes.
+- Backend: Open XML SDK.
+- Platform: Windows, AnyCPU.
 
-Target dell'assembly pubblico e del backend MVP:
+### Decision
 
-```text
-.NET Framework 4.8
-TFM: net48
-Platform: AnyCPU
-```
+The original public assembly and MVP backend target is .NET Framework 4.8 (`net48`, AnyCPU). This matches the CLR used by LabVIEW 2026 without requiring .NET Framework 4.8.1. A classic `.NET 8+` target is unsuitable for direct loading by LabVIEW's .NET Framework nodes and would require a separate process or another interoperability mechanism.
 
-### Motivazione
+### Consequences
 
-LabVIEW 2026 richiede/installa .NET Framework 4.8 e supporta fino a 4.8.1. Usare `net48` evita di richiedere esplicitamente 4.8.1 sulle postazioni e rimane allineato al CLR 4 usato dall'integrazione .NET di LabVIEW.
+- Deploy `XCelReportEngine.dll`, `DocumentFormat.OpenXml.dll`, and `DocumentFormat.OpenXml.Framework.dll` together.
+- Keep the public API limited to simple LabVIEW-compatible types.
+- Microsoft Office is not required.
 
-Open XML SDK supporta .NET Framework e il codice ReportLocker esistente e' interamente portabile a `net48`.
+## ADR-002 — Separate legacy backend target
 
-### Alternative non scelte
+Status: accepted, integration experimental.
 
-- `net481`: supportato da LabVIEW 2026 ma non necessario; introdurrebbe un prerequisito aggiuntivo se 4.8.1 non fosse installato.
-- `netstandard2.0`: tecnicamente consumabile da .NET Framework 4.8, ma non offre vantaggi per un componente esclusivamente LabVIEW/Windows e puo' complicare risoluzione e deployment delle dipendenze.
-- `.NET 8`: non adatto all'assembly caricato direttamente dai classici nodi .NET di LabVIEW, che operano sul CLR/.NET Framework; richiederebbe un processo separato o un diverso meccanismo di interoperabilita'.
-- `.NET Framework 3.5/4.0`: servirebbe soprattutto per compatibilita' legacy e imporrebbe vincoli non necessari al nuovo codice.
+### Decision
 
-### Conseguenze
+The shared backend also targets .NET Framework 4.0 (`net40`) for the exported LabVIEW 2013 wrappers. Both backend targets compile from the same source, and the same 25 functional tests run against each target.
 
-- distribuzione di `ReportEngine.dll`, `DocumentFormat.OpenXml.dll`, `DocumentFormat.OpenXml.Framework.dll` e relative dipendenze accanto all'applicazione/nei path risolti da LabVIEW;
-- API pubblica limitata a tipi semplici compatibili con LabVIEW;
-- nessun requisito di Office installato;
-- nessuna promessa di compatibilita' con LabVIEW 2013 nell'MVP;
-- possibile valutazione futura di un build legacy separato soltanto in presenza di un caso economico concreto.
+### Limitations
+
+Backend compatibility does not prove LabVIEW 2013 integration compatibility. The exported VIs still require relinking, compilation, packaging, and smoke testing in a dedicated LabVIEW 2013 environment. This environment is not currently available alongside the LabVIEW 2026 workstation, so `LV2013` remains experimental.

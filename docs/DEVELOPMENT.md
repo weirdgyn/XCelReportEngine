@@ -1,64 +1,72 @@
-# Sviluppo e manutenzione
+# Development and maintenance
 
-## Prerequisiti
+Italian version: [DEVELOPMENT-IT.md](DEVELOPMENT-IT.md).
+
+## Prerequisites
 
 - Windows;
-- LabVIEW 2026;
-- .NET SDK 10 con targeting pack .NET Framework 4.8;
-- accesso ai pacchetti NuGet oppure cache locale già popolata.
-- per la versione LabVIEW 2013 è necessario il targeting pack .NET Framework 4;
+- LabVIEW 2026 for the current LabVIEW integration;
+- .NET SDK 10 with the .NET Framework 4.8 targeting pack;
+- NuGet access or a populated local package cache;
+- the .NET Framework 4.0 reference assemblies for the legacy backend.
 
-## Build riproducibile
+LabVIEW 2013 cannot currently be installed and validated alongside the LabVIEW 2026 development environment used by this project. The `LV2013` sources therefore remain experimental even though the shared `net40` backend is built and tested.
+
+## Reproducible build
 
 ```powershell
 dotnet restore .net/XCelReportEngine.sln --locked-mode -m:1
 dotnet build .net/XCelReportEngine.sln -c Release --no-restore -m:1
-dotnet test .net/XCelReportEngine.sln -c Release --no-build --no-restore -m:1
+dotnet test .net/tests/XCelReportEngine.Tests/XCelReportEngine.Tests.csproj -c Release -f net48 --no-build --no-restore -m:1
+.net/tests/XCelReportEngine.Tests/bin/Release/net40/XCelReportEngine.Tests.exe
 ```
 
-La build seriale è intenzionale: nell'ambiente di sviluppo corrente la build parallela della solution con SDK .NET 10 può terminare senza una diagnostica utile.
+The serial build is intentional. In the current environment, a parallel solution build with .NET SDK 10 may terminate without useful diagnostics.
 
-I file `packages.lock.json` sono versionati. Quando si aggiorna una dipendenza bisogna eseguire consapevolmente:
+The same 25 source-level test cases run against `net40` and `net48`. The `net40` executable contains a minimal reflection-based test runner because supported versions of `Microsoft.NET.Test.Sdk` and xUnit's Visual Studio adapter require a newer framework. A nonzero exit code indicates failure and is suitable for CI.
 
-```powershell
-dotnet restore .net/XCelReportEngine.sln --force-evaluate -m:1
-```
+The `packages.lock.json` files are versioned. Update dependencies deliberately with `dotnet restore .net/XCelReportEngine.sln --force-evaluate -m:1`.
 
-## Dipendenza tra .NET e LabVIEW
+## .NET and LabVIEW dependency
 
-La LVLIB carica gli assembly prodotti in:
+Release builds stage the assemblies automatically:
 
 ```text
-.net/src/XCelReportEngine/bin/Release/net48/
+net48 -> LV/DotNet/
+net40 -> LV2013/DotNet/
 ```
 
-LabVIEW mantiene gli assembly .NET caricati fino alla chiusura del processo. Prima di ricompilare nella cartella Release è quindi necessario chiudere completamente LabVIEW. In alternativa si può usare una cartella di output temporanea per la sola verifica .NET.
+LabVIEW keeps .NET assemblies loaded until the process exits. Close LabVIEW completely before rebuilding into the Release directory, or use a temporary output directory for .NET-only verification.
 
-Le firme pubbliche di `ReportEngineApi` costituiscono il contratto di interoperabilità. Una modifica a classe, namespace, assembly, firma o tipo di parametro richiede l'aggiornamento manuale dei Constructor/Invoke Node e del typedef `Report Ref.ctl`.
+The public signatures of `ReportEngineApi` are the interoperability contract. Changing a class, namespace, assembly, signature, or parameter type requires manually updating the LabVIEW Constructor/Invoke Nodes and the `Report Ref.ctl` typedef.
 
-## Regole per i file LabVIEW
+## LabVIEW file rules
 
-- rinominare o spostare `.vi`, `.ctl`, `.lvlib` e `.lvproj` soltanto dall'IDE LabVIEW;
-- salvare tutti i chiamanti dopo una modifica a un typedef;
-- non versionare `.lvlps`, `.aliases`, output di test o stato utente;
-- verificare la LVLIB e i test LabVIEW prima di creare un commit che modifica file binari;
-- descrivere nel commit le VI modificate, perché Git non può produrre un diff testuale utile dei diagrammi.
+- Rename or move `.vi`, `.ctl`, `.lvlib`, and `.lvproj` files only from the LabVIEW IDE.
+- Save every caller after changing a typedef.
+- Do not commit `.lvlps`, `.aliases`, test output, or user state.
+- Verify the LVLIB and relevant LabVIEW tests before committing binary LabVIEW changes.
+- List the modified VIs in the commit because Git cannot provide useful textual block-diagram diffs.
 
-## Git e pull request
+## LabVIEW automation status
 
-Il branch principale è `main`. Prima di una pull request:
+The repository has no automated LabVIEW build or test pipeline. Reliable automation requires a licensed, installed LabVIEW version plus NI-supported command-line or VI Server orchestration. An MCP server would only expose that orchestration; it would not remove the requirement for the matching LabVIEW runtime/development environment.
 
-1. eseguire build e test .NET;
-2. eseguire gli smoke test LabVIEW pertinenti;
-3. controllare `git status --short` per evitare output XLSX o file di stato;
-4. aggiornare la documentazione se cambia il contratto pubblico;
-5. evitare di mescolare refactoring .NET e modifiche funzionali LabVIEW non correlate.
+LabVIEW 2013 integration must therefore be validated later on a dedicated machine or VM containing LabVIEW 2013. Until then:
 
-La workflow GitHub Actions compila e testa la parte .NET su Windows. I test LabVIEW rimangono manuali finché non sarà introdotta una pipeline NI dedicata.
+- `net40` backend compilation and functional tests are automated;
+- `LV2013` relinking, compilation, packaging, and smoke tests are not verified;
+- CI must not present the LabVIEW 2013 wrapper as supported.
 
-## Asset locali non pubblicati
+## Git and pull requests
 
-Le cartelle seguenti sono attualmente escluse da Git:
+Before opening a pull request, build and test both .NET targets, run relevant LabVIEW 2026 smoke tests for binary changes, inspect `git status --short`, update the public documentation when the contract changes, and avoid mixing unrelated .NET and LabVIEW work.
+
+GitHub Actions builds both backend targets, runs the `net48` suite with `dotnet test`, and runs the `net40` test executable directly. LabVIEW tests remain manual.
+
+## Unpublished local assets
+
+The following paths are excluded from Git until their contents and Office metadata are sanitized:
 
 ```text
 LV/Test/
@@ -69,5 +77,3 @@ docs/REPORT_LOCKER_ANALYSIS.md
 docs/TEMPLATE_ANALYSIS.md
 docs/data/workbook_analysis.json
 ```
-
-Contengono test, template e risultati di caratterizzazione che devono essere sanitizzati prima della pubblicazione. L'esclusione non cancella i file locali. Per reinserirli sarà necessario rimuovere esplicitamente le relative regole da `.gitignore` dopo la revisione dei contenuti e dei metadati Office.

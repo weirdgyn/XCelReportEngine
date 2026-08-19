@@ -1,33 +1,38 @@
 # XCelReportEngine
 
-Report engine Excel basato su Open XML per applicazioni LabVIEW, senza dipendenze da Microsoft Office, OLE o ActiveX.
+An Open XML-based Excel report engine for LabVIEW applications, with no dependency on Microsoft Office, OLE, or ActiveX.
 
-## Struttura
+Italian documentation is also available in [README-IT.md](README-IT.md).
+
+## Repository layout
 
 ```text
-.net/   backend .NET Framework 4.8/4.0 e test automatici
-LV/     libreria, wrapper, controlli e test LabVIEW
-LV2013/ libreria, wrapper, controlli e test LabVIEW 2013 only
-docs/   architettura, analisi e risultati di caratterizzazione
-tools/  strumenti di analisi e generazione asset
+.net/   .NET Framework 4.8/4.0 backend and automated tests
+LV/     LabVIEW library, wrappers, controls, and tests
+LV2013/ LabVIEW 2013-compatible library, wrappers, and controls
+docs/   architecture, development notes, and characterization results
+tools/  analysis and test-asset generation utilities
 ```
 
-Le cartelle locali `LV/Test`, `LV/Templates` e `LV/Pre-Test` sono temporaneamente escluse dal repository pubblico finché i relativi asset non saranno sanitizzati.
+The local `LV/Test`, `LV/Templates`, and `LV/Pre-Test` directories are temporarily excluded from the public repository until their assets have been sanitized.
 
-## Build .NET
+## .NET build and tests
 
 ```powershell
-dotnet restore .net/XCelReportEngine.sln -m:1
+dotnet restore .net/XCelReportEngine.sln --locked-mode -m:1
 dotnet build .net/XCelReportEngine.sln -c Release --no-restore -m:1
-dotnet test .net/XCelReportEngine.sln -c Release --no-build --no-restore -m:1
+dotnet test .net/tests/XCelReportEngine.Tests/XCelReportEngine.Tests.csproj -c Release -f net48 --no-build --no-restore -m:1
+.net/tests/XCelReportEngine.Tests/bin/Release/net40/XCelReportEngine.Tests.exe
 ```
 
-La documentazione funzionale corrente è in [docs/TECHNICAL_REFERENCE.md](docs/TECHNICAL_REFERENCE.md). Le istruzioni per sviluppo, Git e LabVIEW sono in [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
+The same 25 test cases run on both targets. `net48` uses the Visual Studio test adapter; `net40` uses a small self-contained runner because current `Microsoft.NET.Test.Sdk` and xUnit adapters no longer support .NET Framework 4.0.
 
-## Licenza
+See [the technical reference](docs/TECHNICAL_REFERENCE.md) for the current feature contract and [the development guide](docs/DEVELOPMENT.md) for build, Git, and LabVIEW instructions.
 
-XCelReportEngine è distribuito secondo i termini della licenza BSD 3-Clause (`BSD-3-Clause`).
+## License
 
-Copyright (c) 2026, Michele Santucci. Consultare [LICENSE.txt](LICENSE.txt) per il testo completo della licenza.
+XCelReportEngine is distributed under the BSD 3-Clause License (`BSD-3-Clause`).
 
-Le componenti di terze parti distribuite con il package rimangono soggette alle rispettive licenze.
+Copyright (c) 2026, Michele Santucci. See [LICENSE.txt](LICENSE.txt) for the full license text.
+
+Bundled third-party components remain subject to their respective licenses.
