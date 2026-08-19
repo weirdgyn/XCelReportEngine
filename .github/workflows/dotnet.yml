@@ -31,4 +31,6 @@ jobs:
       - name: Build
         run: dotnet build .net/XCelReportEngine.sln -c Release --no-restore -m:1 -p:SkipLabViewStaging=true
       - name: Test
-        run: dotnet test .net/XCelReportEngine.sln -c Release --no-build --no-restore -m:1 --logger "console;verbosity=minimal"
+        run: dotnet test .net/tests/XCelReportEngine.Tests/XCelReportEngine.Tests.csproj -c Release -f net48 --no-build --no-restore -m:1 --logger "console;verbosity=minimal"
+      - name: Test .NET Framework 4.0
+        run: .net/tests/XCelReportEngine.Tests/bin/Release/net40/XCelReportEngine.Tests.exe
