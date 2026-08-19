@@ -4,6 +4,9 @@ Italian version: [CHANGELOG-IT.md](CHANGELOG-IT.md).
 
 ## Unreleased
 
+- Added the canonical product roadmap and repository-wide project instructions.
+- Added the initial NI Toolkit parity inventory and current implementation mapping.
+- Defined ActiveX, COM, Office automation, and cell calculation as permanent compatibility-scope exclusions.
 - Added automated execution of the same 25 backend tests on .NET Framework 4.0 and 4.8.
 - Made English the default documentation language and retained Italian documents with an `-IT` suffix.
 - Documented the current LabVIEW 2013 build and test limitations.

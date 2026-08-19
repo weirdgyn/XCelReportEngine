@@ -6,6 +6,9 @@ Le modifiche rilevanti del progetto saranno documentate in questo file.
 
 ## Unreleased
 
+- aggiunte la roadmap canonica del prodotto e le istruzioni generali di progetto valide per l'intero repository;
+- aggiunto l'inventario iniziale di parità con il NI Toolkit e la mappatura dell'implementazione corrente;
+- definite ActiveX, COM, automazione Office e calcolo delle celle come esclusioni permanenti dal perimetro di compatibilità;
 - aggiunta l'esecuzione automatica degli stessi 25 test backend su .NET Framework 4.0 e 4.8;
 - resa predefinita la documentazione inglese, conservando le versioni italiane con suffisso `-IT`;
 - documentati i limiti correnti di build e test dell'integrazione LabVIEW 2013;
